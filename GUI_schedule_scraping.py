@@ -11,6 +11,9 @@ else:
 from PIL import ImageTk, Image
 import os
 
+from datetime import timezone, datetime
+from time import sleep
+
 PAGE_NAME    = "electroLAB.FPMs"
 ENABLE_EMOJI = True
 PHONE_NBR    = fs.add_emoji(":telephone_receiver:")  \
@@ -21,6 +24,8 @@ PHONE_NBR    = fs.add_emoji(":telephone_receiver:")  \
 IMAGES_PATH  = "images"
 ICONE_PATH   = os.path.join(IMAGES_PATH, 'electroLAB.ico')
 LOGO_PATH    = os.path.join(IMAGES_PATH, 'electroLAB-LOGO.png')
+
+ELAB_GREEN   = "#%02x%02x%02x" % (44,167,106)
 
 POST_KEY     = b'\xf0\x9f\x95\x93'.decode('utf8')
 
@@ -50,39 +55,39 @@ class Fullscreen_Window:
         self.lbl_list = []
         self.lbl_list.append(Label(self.frame,
                                    image = self.img,
-                                   background="#%02x%02x%02x" % (44,167,106),
-                                   anchor=CENTER,
-                                   height=int(self.screen_height/4.5),
-                                   width=self.screen_width,
-                                   relief=None,
-                                   compound="center").grid(row=0, sticky="nsew"))
+                                   background = ELAB_GREEN,
+                                   anchor = CENTER,
+                                   height = int(self.screen_height/4.5),
+                                   width = self.screen_width,
+                                   relief = None,
+                                   compound = "center").grid(column = 0, row = 0, sticky = "nsew"))
 
         self.lbl_list.append(Label(self.frame,
-                                  textvariable=self.post,
-                                  background='white',
-                                  anchor='center',
-                                  font=self.font,
-                                  relief=None,
-                                  compound="center",
-                                  height=9).grid(row=1,sticky="nsew"))
+                                  textvariable = self.post,
+                                  background = 'white',
+                                  anchor = 'center',
+                                  font = self.font,
+                                  relief = None,
+                                  compound = "center",
+                                  height = 9).grid(column = 0, row = 1, sticky = "nsew"))
 
         self.lbl_list.append(Label(self.frame,
-                                   textvariable=self.time, 
-                                   background='white', 
-                                   anchor='center', 
-                                   font=self.font, 
-                                   relief=None, 
-                                   compound="center", 
-                                   height=3).grid(row=2,sticky="nsew"))
+                                   textvariable = self.time, 
+                                   background = 'white', 
+                                   anchor = 'center', 
+                                   font = self.font, 
+                                   relief = None, 
+                                   compound = "center", 
+                                   height = 3).grid(column = 0, row = 2, sticky = "nsew"))
 
         self.lbl_list.append(Label(self.frame,
                                    image = self.img, 
-                                   background="#%02x%02x%02x" % (44,167,106), 
-                                   anchor=CENTER, 
-                                   height=int(self.screen_height/4.5), 
-                                   width=self.screen_width, 
-                                   relief=None, 
-                                   compound="center").grid(row=3, sticky="nsew"))
+                                   background = ELAB_GREEN, 
+                                   anchor = CENTER, 
+                                   height = int(self.screen_height/4.5), 
+                                   width = self.screen_width, 
+                                   relief = None, 
+                                   compound = "center").grid(column = 0, row = 3, sticky = "nsew"))
 
         # Arrange grid 
         self.frame.grid_rowconfigure(0, weight = 1)
@@ -125,10 +130,7 @@ class Fullscreen_Window:
         self.tk.after(5000, self.updatePost)
 
     def update(self):
-        from datetime import timezone, datetime
-        from time import sleep
-
-        utc_datetime = datetime.now() # datetime.utcnow()
+        utc_datetime = datetime.now()
 
         while(self.previous_date==utc_datetime):
             sleep(0.01)
@@ -141,7 +143,6 @@ class Fullscreen_Window:
         self.tk.after(10, self.update)
 
 def main():
-    import time
     w = Fullscreen_Window()
     w.tk.mainloop()
 
